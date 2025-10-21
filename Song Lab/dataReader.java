@@ -16,14 +16,14 @@ public class dataReader {
                 String artist = line.split(";")[0];
                 String track = line.split(";")[1];
                 String genre = line.split(";")[3];
-                int duration = Integer.parseInt(line.split(";")[4]);
+                int length = Integer.parseInt(line.split(";")[4]);
                 double shake = Double.parseDouble(line.split(";")[5]);
                 double obscene = Double.parseDouble(line.split(";")[6]);
                 double danceability = Double.parseDouble(line.split(";")[7]);
                 double loudness = Double.parseDouble(line.split(";")[8]);
                 String topic = line.split(";")[9];
 
-                songs[num] = new Song(artist, track, release_date, genre, duration, shake, obscene, danceability, loudness, topic);
+                songs[num] = new Song(artist, track, release_date, genre, length, shake, obscene, danceability, loudness, topic);
 
                 num++;
             }
@@ -35,39 +35,116 @@ public class dataReader {
         }
         return songs;
     }
-    public String getLongestTitle(Song [] List) {
-        String longest = "";
-        for (int i=0; i<28371; i++) {
-            String title = List[i].getTitle();
-
-            if(title.length() > longest.length()) {
-                longest = title;
+    public int getLongestLen(Song [] list) {
+        int longestLength = 0;
+        for (int i = 0; i<28371; i++) {
+            int length = list[i].getLen();
+            if(length > longestLength) {
+                longestLength = length;
             }
         }
-        
-        return longest;  
+        return longestLength;
     }
-    public double getLowestShake(Song [] list) {
+    public String getLowestShake(Song [] list) {
         double lowestShake = 1;
+        String title = "";
         for (int i = 0; i<28371; i++) {
             double shake = list[i].getShake();
             if(shake < lowestShake) {
                 lowestShake = shake;
+                title = list[i].getTitle();
             }
         }
-
-        return lowestShake;
+        return title;
     }
-    public double getLoudestSong(Song [] list) {
+    public String getLoudestSong(Song [] list) {
         Double loudest = 0.0;
+        String title = "";
         for (int i = 0; i<28371; i++) {
             Double loudness = list[i].getLoudness();
 
             if(loudness > loudest) {
                 loudest = loudness;
+                title = list[i].getTitle();
             }
         }
+        return title;
+    }
+    public int getNumSongs1982(Song [] list) {
+        int year1982 = 0;
+        for (int i = 0; i<28371; i++) {
+            int release_date = list[i].getYear();
 
-        return loudest;
+            if (release_date == 1985) {
+                year1982 = year1982 + 1;
+            }
+        }
+        return year1982;
+    }
+    public int getNumSongs2000(Song [] list) {
+        int year2000 = 0;
+        for (int i = 0; i<28371; i++) {
+            int release_date = list[i].getYear();
+
+            if (release_date == 2000) {
+                year2000 = year2000 + 1;
+            }
+        }
+        return year2000;
+    }
+    public int getNumSongs2015(Song [] list) {
+        int year2015 = 0;
+        for (int i = 0; i<28371; i++) {
+            int release_date = list[i].getYear();
+
+            if (release_date == 2015) {
+                year2015 = year2015 + 1;
+            }
+        }
+        return year2015;
+    }
+    public int getDanceabilityRatings(Song [] list) {
+        int numSongs = 0;
+        for (int i = 0; i<28371; i++) {
+            double danceability = list[i].getDanceability();
+            if (danceability > 0.8) {
+                numSongs = numSongs + 1;
+            }
+        }
+        return numSongs;
+    }
+    public int getNumSongsMichaelJackson(Song [] list) {
+        int numSongs = 0;
+        for (int i = 0; i<28371; i++) {
+            String artist = list[i].getArtist();
+            if (artist.contains("michael jackson")) {
+                numSongs = numSongs + 1;
+            }
+        }
+        return numSongs;
+    }
+    public int getNumSongsWhitneyHouston(Song [] list) {
+        int numSongs = 0;
+        for (int i = 0; i<28371; i++) {
+            String artist = list[i].getArtist();
+            if (artist.contains("whitney houston")) {
+                numSongs = numSongs + 1;
+            }
+        }
+        return numSongs;
+    }
+    public double getAverageObscenityLevel19501959(Song [] list) {
+        int numSongs = 0;
+        double totalObsceneRating = 0;
+        for (int i = 0; i<28371; i++) {
+            double obscene = list[i].getObscene();
+            int release_date = list[i].getYear();
+            if (release_date >= 1950 && release_date <= 1959) {
+                numSongs = numSongs + 1;
+                totalObsceneRating = totalObsceneRating + obscene;
+            }
+        }
+        return totalObsceneRating;
+        
     }
 }
